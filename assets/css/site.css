@@ -321,7 +321,7 @@ body.nav-open { overflow: hidden; }
 .lab__canvas { position: absolute; inset: 0; width: 100%; height: 100%; display: block; cursor: grab; touch-action: none; transition: opacity .6s var(--ease); }
 .lab__canvas:active { cursor: grabbing; }
 .lab__canvas:focus-visible { outline: 2px solid var(--red-300); outline-offset: -3px; }
-.lab.is-shipping .lab__canvas { opacity: .05; }
+.lab.is-shipping .lab__canvas { opacity: 0; }
 .lab__hud { position: absolute; left: 16px; right: 16px; top: 14px; display: flex; justify-content: space-between; gap: 16px; pointer-events: none; }
 .lab__step { font-family: var(--mono); font-size: 11.5px; letter-spacing: .14em; text-transform: uppercase; color: var(--red-300); }
 .lab__status { margin-top: 4px; font-size: 14.5px; font-weight: 550; color: var(--white); max-width: 32ch; text-shadow: 0 1px 8px rgba(0,0,0,.6); }
