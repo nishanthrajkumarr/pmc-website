@@ -21,7 +21,7 @@
 <link rel="preconnect" href="https://fonts.googleapis.com">
 <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
 <link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=Archivo:wdth,wght@62..125,300..800&family=JetBrains+Mono:wght@400;500&display=swap">
-<link rel="stylesheet" href="assets/css/site.css?v=202611010239">
+<link rel="stylesheet" href="assets/css/site.css?v=202611010303">
 <script>document.documentElement.classList.add('js')</script>
 </head>
 <body>
@@ -39,6 +39,7 @@
   <symbol id="i-globe" viewBox="0 0 24 24"><g fill="none" stroke="currentColor" stroke-width="1.6"><circle cx="12" cy="12" r="9"/><path d="M3 12h18M12 3c2.6 2.8 3.9 5.8 3.9 9s-1.3 6.2-3.9 9c-2.6-2.8-3.9-5.8-3.9-9S9.4 5.8 12 3Z"/></g></symbol>
   <symbol id="i-upload" viewBox="0 0 24 24"><g fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round"><path d="M12 15V4m-4.5 4.5L12 4l4.5 4.5"/><path d="M4 14v4.5A1.5 1.5 0 0 0 5.5 20h13a1.5 1.5 0 0 0 1.5-1.5V14"/></g></symbol>
   <symbol id="i-file" viewBox="0 0 24 24"><g fill="none" stroke="currentColor" stroke-width="1.7" stroke-linejoin="round"><path d="M6 3h8l4 4v14H6z"/><path d="M14 3v4h4"/></g></symbol>
+  <symbol id="i-box" viewBox="0 0 24 24"><g fill="none" stroke="currentColor" stroke-width="1.8" stroke-linejoin="round"><path d="M3.5 7.5 12 3l8.5 4.5v9L12 21l-8.5-4.5z"/><path d="m3.5 7.5 8.5 4.5 8.5-4.5M12 12v9"/></g></symbol>
   <symbol id="i-chevron" viewBox="0 0 24 24"><path fill="none" stroke="currentColor" stroke-width="2" d="m9 5 7 7-7 7"/></symbol>
 </svg>
 <a class="skip-link" href="#main">Skip to content</a>
@@ -82,30 +83,93 @@
 </header>
 
 <main id="main">
-  <section class="hero" aria-labelledby="hero-title">
-    <div class="hero__media" aria-hidden="true">
-      <video id="hero-video" data-autoplay muted loop playsinline preload="auto" poster="assets/video/hero.webp">
-        <source src="assets/video/hero.mp4" type="video/mp4">
-      </video>
-    </div>
-    <button class="hero__ctl" type="button" data-video-toggle aria-controls="hero-video" aria-pressed="false" aria-label="Pause background video">
-      <svg class="i i--pause" aria-hidden="true"><use href="#i-pause"/></svg>
-      <svg class="i i--play" aria-hidden="true"><use href="#i-play"/></svg>
-    </button>
+  <section class="hero hero--lab" aria-labelledby="hero-title">
     <div class="container">
-      <div class="hero__content">
-        <p class="eyebrow eyebrow--light"><span>PMC</span> Machining &middot; Forging &middot; Die casting &middot; Fabrication</p>
-        <h1 class="h1" id="hero-title">Precision engineering for <em>tomorrow&rsquo;s industries.</em></h1>
-        <p class="lede">We make machined components, castings and fabricated assemblies to your drawing for automotive, aerospace and heavy-machinery customers. Every part is quality-checked before it ships, anywhere in the world.</p>
-        <div class="btn-row">
-          <a class="btn btn--red btn--lg" href="contact.html#rfq">Request a quote <svg class="i" aria-hidden="true"><use href="#i-arrow"/></svg></a>
-          <a class="btn btn--ghost btn--lg" href="work.html">See our work</a>
+      <div class="hero__grid">
+        <div class="hero__content">
+          <p class="eyebrow eyebrow--light"><span>PMC</span> Machining &middot; Forging &middot; Die casting &middot; Fabrication</p>
+          <h1 class="h1" id="hero-title">Precision engineering for <em>tomorrow&rsquo;s industries.</em></h1>
+          <p class="lede">We make machined components, castings and fabricated assemblies to your drawing for automotive, aerospace and heavy-machinery customers. Try it: pick a part, send it to us, and follow it from our machines to your door.</p>
+          <div class="btn-row">
+            <a class="btn btn--red btn--lg" href="contact.html#rfq">Request a quote <svg class="i" aria-hidden="true"><use href="#i-arrow"/></svg></a>
+            <a class="btn btn--ghost btn--lg" href="work.html">See our work</a>
+          </div>
+          <div class="hero__badges">
+            <img class="badge-round" src="assets/img/brand/badge-25-years.webp" width="360" height="360" alt="25th anniversary badge">
+            <img class="badge-square" src="assets/img/brand/badge-iso.webp" width="360" height="331" alt="ISO badge">
+            <img src="assets/img/brand/badge-trusted-seller.webp" width="480" height="217" alt="Trusted seller badge">
+            <p>25 years of precision manufacturing for OEMs worldwide.</p>
+          </div>
         </div>
-        <div class="hero__badges">
-          <img class="badge-round" src="assets/img/brand/badge-25-years.webp" width="360" height="360" alt="25th anniversary badge">
-          <img class="badge-square" src="assets/img/brand/badge-iso.webp" width="360" height="331" alt="ISO badge">
-          <img src="assets/img/brand/badge-trusted-seller.webp" width="480" height="217" alt="Trusted seller badge">
-          <p>25 years of precision manufacturing for OEMs worldwide.</p>
+
+        <div class="lab" data-lab>
+          <div class="lab__frame frame">
+            <div class="lab__stage" data-lab-stage>
+              <img class="lab__poster" src="assets/img/lab-poster.webp" width="1280" height="1024" alt="Machined aluminium mounting bracket" fetchpriority="high">
+              <canvas class="lab__canvas" data-lab-canvas tabindex="0" role="img" aria-label="3D model of a machined part. Drag, or use the arrow keys, to rotate."></canvas>
+              <div class="lab__hud">
+                <div>
+                  <p class="lab__step" data-lab-step>Step 01 &middot; Design</p>
+                  <p class="lab__status" data-lab-status aria-live="polite">Drag to rotate. Pick a part and material, then send it to us.</p>
+                </div>
+                <div class="lab__hud-right">
+                  <p class="lab__dims" data-lab-dims>160 &times; 100 &times; 32 mm<br>Aluminium 6061</p>
+                  <p class="lab__timelapse">Time-lapse</p>
+                  <button class="lab__stop" type="button" data-lab-stop hidden>Stop <svg class="i" aria-hidden="true"><use href="#i-close"/></svg></button>
+                </div>
+              </div>
+              <ul class="lab__checks" data-lab-checks aria-live="polite"></ul>
+              <div class="lab__map" aria-hidden="true">
+                <div class="lab__map-inner">
+                  <img src="assets/img/world-dots.svg" width="360" height="138" alt="">
+                  <svg viewBox="0 0 360 138" preserveAspectRatio="none"><path class="lab__arc" data-lab-arc d="M0 0"/></svg>
+                  <span class="lab__pin" style="left:72.3%;top:48.5%"><em>PMC &middot; India</em></span>
+                  <span class="lab__pin lab__pin--to" data-lab-to><em data-lab-to-label>You</em></span>
+                  <span class="lab__parcel" data-lab-parcel><svg class="i"><use href="#i-box"/></svg></span>
+                </div>
+              </div>
+              <div class="lab__done" data-lab-done hidden>
+                <span class="lab__done-icon" aria-hidden="true"><svg class="i"><use href="#i-check"/></svg></span>
+                <p class="lab__done-title" data-lab-done-title>Delivered to your door.</p>
+                <p>Quoted, machined, inspected and shipped. Ready to make your real part?</p>
+                <div class="btn-row">
+                  <a class="btn btn--red" data-lab-quote href="contact.html#rfq">Quote my part <svg class="i" aria-hidden="true"><use href="#i-arrow"/></svg></a>
+                  <button class="btn btn--ghost" type="button" data-lab-replay>Replay</button>
+                </div>
+              </div>
+              <div class="lab__bar"><span data-lab-bar></span></div>
+            </div>
+          </div>
+          <div class="lab__panel">
+            <div class="lab__opts">
+              <div class="lab__group" role="group" aria-labelledby="lab-part-label">
+                <span class="lab__label" id="lab-part-label">Part</span>
+                <div class="lab__chips">
+                  <button class="chip" type="button" data-part="bracket" aria-pressed="true">Bracket</button>
+                  <button class="chip" type="button" data-part="flange" aria-pressed="false">Flange</button>
+                  <button class="chip" type="button" data-part="gear" aria-pressed="false">Gear</button>
+                </div>
+              </div>
+              <div class="lab__group" role="group" aria-labelledby="lab-mat-label">
+                <span class="lab__label" id="lab-mat-label">Material</span>
+                <div class="lab__chips">
+                  <button class="chip" type="button" data-material="aluminium" aria-pressed="true"><i style="--sw:#d4d8dd"></i>Aluminium</button>
+                  <button class="chip" type="button" data-material="steel" aria-pressed="false"><i style="--sw:#9aa1a9"></i>Steel</button>
+                  <button class="chip" type="button" data-material="brass" aria-pressed="false"><i style="--sw:#d8b35c"></i>Brass</button>
+                  <button class="chip" type="button" data-material="anodised" aria-pressed="false"><i style="--sw:#2a2e35"></i>Anodised</button>
+                </div>
+              </div>
+            </div>
+            <button class="btn btn--red lab__send" type="button" data-lab-send disabled>Send to PMC <svg class="i" aria-hidden="true"><use href="#i-arrow"/></svg></button>
+            <a class="btn btn--red lab__fallback" href="contact.html#rfq">Get a quote <svg class="i" aria-hidden="true"><use href="#i-arrow"/></svg></a>
+          </div>
+          <ol class="lab__steps" data-lab-steps aria-label="Your part's journey">
+            <li class="is-current" aria-current="step">Design</li>
+            <li>Quote</li>
+            <li>Machine</li>
+            <li>Inspect</li>
+            <li>Deliver</li>
+          </ol>
         </div>
       </div>
       <dl class="hero__specs">
@@ -500,6 +564,6 @@
   <button class="lightbox__btn lightbox__prev" type="button" data-lightbox-prev aria-label="Previous image"><svg class="i" aria-hidden="true"><use href="#i-chevron"/></svg></button>
   <button class="lightbox__btn lightbox__next" type="button" data-lightbox-next aria-label="Next image"><svg class="i" aria-hidden="true"><use href="#i-chevron"/></svg></button>
 </div>
-<script src="assets/js/site.js?v=202611010239" defer></script>
+<script src="assets/js/site.js?v=202611010303" defer></script>
 </body>
 </html>

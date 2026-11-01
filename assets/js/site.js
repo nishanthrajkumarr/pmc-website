@@ -1,5 +1,6 @@
 /* PMC Industrial Solutions — site behaviour (no dependencies). */
 (() => {
+  const SCRIPT_URL = document.currentScript ? document.currentScript.src : '';
   const reduceMotion = window.matchMedia('(prefers-reduced-motion: reduce)');
   const $ = (sel, root = document) => root.querySelector(sel);
   const $$ = (sel, root = document) => Array.from(root.querySelectorAll(sel));
@@ -62,6 +63,33 @@
     sync();
   });
   reduceMotion.addEventListener('change', () => videos.forEach((v) => (reduceMotion.matches ? v.pause() : tryPlay(v))));
+
+  /* ---------- Interactive hero: load three.js only when idle and WebGL is available ---------- */
+  const lab = $('[data-lab]');
+  if (lab) {
+    const hasGL = (() => {
+      try {
+        const c = document.createElement('canvas');
+        return !!(window.WebGLRenderingContext && (c.getContext('webgl2') || c.getContext('webgl')));
+      } catch { return false; }
+    })();
+    const toStatic = () => {
+      lab.classList.add('lab--static');
+      const status = $('[data-lab-status]', lab);
+      if (status) status.textContent = 'From your drawing to your door: quoted, machined, inspected and shipped worldwide.';
+    };
+    if (!hasGL || !SCRIPT_URL) {
+      toStatic();
+    } else {
+      const url = new URL('lab.js', SCRIPT_URL);
+      url.search = new URL(SCRIPT_URL).search;
+      const load = () => import(url.href)
+        .then((m) => { window.__pmcLab = m.initLab(lab, { reduceMotion }); })
+        .catch(toStatic);
+      if ('requestIdleCallback' in window) requestIdleCallback(load, { timeout: 1200 });
+      else setTimeout(load, 200);
+    }
+  }
 
   /* ---------- Reveal on scroll ---------- */
   const reveals = $$('[data-reveal]');
@@ -182,6 +210,8 @@
       const opt = $$('option', form.service).find((o) => o.value === service || o.dataset.slug === service);
       if (opt) form.service.value = opt.value;
     }
+    const material = params.get('material');
+    if (material && form.material && !form.material.value) form.material.value = material.slice(0, 80);
     form.country.addEventListener('change', () => {
       const ca = ['Canada', 'United States', 'Mexico'].includes(form.country.value);
       const target = form.querySelector(`input[name="office"][value="${ca ? 'canada' : 'india'}"]`);

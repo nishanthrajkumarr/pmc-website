@@ -1,3 +1,4 @@
 .DS_Store
 *.tmp.html
 __pycache__/
+_test*.html

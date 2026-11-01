@@ -17,23 +17,6 @@ clip() { # name input start duration filter crf
 LAND="scale=1280:720:force_original_aspect_ratio=increase,crop=1280:720,fps=30"
 PORT="scale=540:960:force_original_aspect_ratio=increase,crop=540:960,fps=30"
 
-# Hero montage: VMC coolant, two grinding shots, assembly line.
-ffmpeg -v error -y \
-  -ss 22.9 -t 3.3 -i "$A/IMG_2285.MOV" \
-  -ss 13 -t 4 -i "$A/IMG_1854.MOV" \
-  -ss 19 -t 4 -i "$A/IMG_1854.MOV" \
-  -ss 14 -t 4 -i "$A/IMG_2173.MOV" \
-  -filter_complex "\
-[0:v]crop=900:506:0:930,scale=1280:720,fps=30,setsar=1,format=yuv420p[a];\
-[1:v]$LAND,setsar=1,format=yuv420p[b];\
-[2:v]$LAND,setsar=1,format=yuv420p[c];\
-[3:v]$LAND,setsar=1,format=yuv420p[d];\
-[a][b]xfade=transition=fade:duration=0.6:offset=2.7[ab];\
-[ab][c]xfade=transition=fade:duration=0.6:offset=6.1[abc];\
-[abc][d]xfade=transition=fade:duration=0.6:offset=9.5[v]" \
-  -map "[v]" "${X264[@]}" -crf 28 "$OUT/hero.mp4"
-poster hero 1.2
-
 clip loop-fabrication  "$A/IMG_1854.MOV" 2 10 "$LAND" 28;  poster loop-fabrication 1
 clip loop-assembly     "$A/IMG_2173.MOV" 10 12 "$LAND" 28; poster loop-assembly 4
 clip fab-floor         "$A/IMG_1847.MOV" 0 9 "$LAND" 28;   poster fab-floor 2
