@@ -130,14 +130,16 @@ ul, ol { margin: 0; padding: 0; }
 .topbar__icon .i { width: 17px; height: 17px; }
 .topbar__cc { font-family: var(--mono); font-size: 10.5px; letter-spacing: 0.08em; padding: 1px 5px; border: 1px solid var(--line-2); border-radius: 2px; color: var(--steel-2); }
 
-.site-header {
-  position: sticky; top: 0; z-index: 50;
+/* The blur lives on a pseudo-element: backdrop-filter on the header itself would make it
+   the containing block for the fixed mobile menu and collapse the menu to the header's height. */
+.site-header { position: sticky; top: 0; z-index: 50; border-bottom: 1px solid var(--line); }
+.site-header::before {
+  content: ""; position: absolute; inset: 0; z-index: -1;
   background: rgba(12, 14, 17, 0.86);
   -webkit-backdrop-filter: saturate(1.4) blur(14px); backdrop-filter: saturate(1.4) blur(14px);
-  border-bottom: 1px solid var(--line);
   transition: background-color .3s;
 }
-.site-header.is-scrolled { background: rgba(12, 14, 17, 0.96); }
+.site-header.is-scrolled::before { background: rgba(12, 14, 17, 0.96); }
 .site-header__inner { display: flex; align-items: center; gap: 24px; min-height: var(--header-h); }
 
 .brand { display: inline-flex; align-items: center; gap: 14px; text-decoration: none; margin-right: auto; }

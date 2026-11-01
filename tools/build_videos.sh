@@ -19,7 +19,7 @@ PORT="scale=540:960:force_original_aspect_ratio=increase,crop=540:960,fps=30"
 
 # Hero montage: VMC coolant, two grinding shots, assembly line.
 ffmpeg -v error -y \
-  -ss 22.1 -t 4 -i "$A/IMG_2285.MOV" \
+  -ss 22.9 -t 3.3 -i "$A/IMG_2285.MOV" \
   -ss 13 -t 4 -i "$A/IMG_1854.MOV" \
   -ss 19 -t 4 -i "$A/IMG_1854.MOV" \
   -ss 14 -t 4 -i "$A/IMG_2173.MOV" \
@@ -28,11 +28,11 @@ ffmpeg -v error -y \
 [1:v]$LAND,setsar=1,format=yuv420p[b];\
 [2:v]$LAND,setsar=1,format=yuv420p[c];\
 [3:v]$LAND,setsar=1,format=yuv420p[d];\
-[a][b]xfade=transition=fade:duration=0.6:offset=3.4[ab];\
-[ab][c]xfade=transition=fade:duration=0.6:offset=6.8[abc];\
-[abc][d]xfade=transition=fade:duration=0.6:offset=10.2[v]" \
+[a][b]xfade=transition=fade:duration=0.6:offset=2.7[ab];\
+[ab][c]xfade=transition=fade:duration=0.6:offset=6.1[abc];\
+[abc][d]xfade=transition=fade:duration=0.6:offset=9.5[v]" \
   -map "[v]" "${X264[@]}" -crf 28 "$OUT/hero.mp4"
-poster hero 2.6
+poster hero 1.2
 
 clip loop-fabrication  "$A/IMG_1854.MOV" 2 10 "$LAND" 28;  poster loop-fabrication 1
 clip loop-assembly     "$A/IMG_2173.MOV" 10 12 "$LAND" 28; poster loop-assembly 4
