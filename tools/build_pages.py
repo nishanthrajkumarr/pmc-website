@@ -11,6 +11,7 @@ Template syntax inside src/pages/*.html:
   {{gallery}}                    full filterable work gallery
   {{clients}}                    client logo list
   {{formspree}}                  quote-form endpoint from tools/site-config.json
+  {{#uploads}}...{{/uploads}}    kept only when "formspree_uploads" is true in tools/site-config.json
 """
 import html, json, re, sys, time
 from pathlib import Path
@@ -96,6 +97,9 @@ def partial(name):
 
 
 def expand(text):
+    # Upload UI only exists when the Formspree plan allows file uploads.
+    keep = bool(config.get('formspree_uploads'))
+    text = re.sub(r'\{\{#uploads\}\}(.*?)\{\{/uploads\}\}', lambda m: m.group(1) if keep else '', text, flags=re.S)
     for _ in range(3):
         text = re.sub(r'\{\{>\s*([\w-]+)\s*\}\}', lambda m: partial(m.group(1)), text)
     text = re.sub(r'\{\{img\s+([^}]+)\}\}', render_img, text)

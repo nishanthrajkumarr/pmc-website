@@ -1,4 +1,5 @@
 {
-  "formspree_endpoint": "",
-  "formspree_endpoint_canada": ""
+  "formspree_endpoint": "https://formspree.io/f/xljjplew",
+  "formspree_endpoint_canada": "",
+  "formspree_uploads": false
 }

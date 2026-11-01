@@ -92,7 +92,11 @@ path: contact.html
             <label for="f-details">Project details *</label>
             <textarea id="f-details" name="details" required placeholder="What is the part, what does it do, and anything we should know about tolerances, finish or inspection?"></textarea>
           </div>
-          <div class="field field--full rfq__upload" data-upload>
+          <div class="field field--full">
+            <label for="f-link">Link to drawings <span class="opt">(optional)</span></label>
+            <input id="f-link" name="drawing_link" type="text" inputmode="url" autocomplete="off" placeholder="Google Drive, Dropbox or WeTransfer link">
+          </div>
+          {{#uploads}}<div class="field field--full rfq__upload" data-upload>
             <span class="field__label" id="files-label">Drawings &amp; files <span class="opt">(optional)</span></span>
             <div class="dropzone" data-dropzone>
               <input id="f-files" class="dropzone__input" name="attachment" type="file" multiple aria-labelledby="files-label" aria-describedby="files-help" data-files>
@@ -102,7 +106,7 @@ path: contact.html
             </div>
             <ul class="file-list" data-file-list aria-live="polite"></ul>
             <p class="field__error" data-file-error role="alert" hidden></p>
-          </div>
+          </div>{{/uploads}}
           <div class="hp" aria-hidden="true"><label for="f-gotcha">Leave this empty</label><input id="f-gotcha" type="text" name="_gotcha" tabindex="-1" autocomplete="off"></div>
         </div>
         <div class="rfq__foot">
@@ -110,6 +114,7 @@ path: contact.html
           <div class="progress" data-rfq-progress hidden><div class="progress__bar"><span data-rfq-progress-bar></span></div><p class="progress__text" data-rfq-progress-text aria-live="polite">Uploading&hellip;</p></div>
           <p class="rfq__note rfq__note--email">This opens your email app with your request filled in. Attach your drawings (PDF, DXF, STEP or IGES) before you press send.</p>
           <p class="rfq__note rfq__note--upload">Your request and files go straight to our team through Formspree, our secure form service. Large files can take a minute on slower connections.</p>
+          <p class="rfq__note rfq__note--noupload">Your request goes straight to our team through Formspree, our secure form service. Share drawings with a link above, or email them to <a href="mailto:precimechraj@yahoo.co.in">precimechraj@yahoo.co.in</a> (India) or <a href="mailto:nishanth@precimechcnc.com">nishanth@precimechcnc.com</a> (Canada) after you send.</p>
           <p class="rfq__error" data-rfq-error role="alert" hidden></p>
         </div>
         <div class="rfq__result" data-rfq-result role="status" hidden>
@@ -140,7 +145,7 @@ path: contact.html
           <ul class="people">
             <li><span>Nishanth Rajkumar</span><a href="tel:+14387785745">+1 438 778 5745</a></li>
           </ul>
-          <a class="office__mail" href="mailto:nishanthrajkumar1@gmail.com"><svg class="i" aria-hidden="true"><use href="#i-mail"/></svg> nishanthrajkumar1@gmail.com</a>
+          <a class="office__mail" href="mailto:nishanth@precimechcnc.com"><svg class="i" aria-hidden="true"><use href="#i-mail"/></svg> nishanth@precimechcnc.com</a>
         </div>
         <div class="aside-card">
           <h2>What to include</h2>

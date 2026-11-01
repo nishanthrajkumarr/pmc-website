@@ -38,7 +38,9 @@ Formspree plan (Personal or higher). Formspree allows 10 files per submission, 2
 2. In the form's settings, turn off Formspree's reCAPTCHA. The site submits with JavaScript, and the built-in `_gotcha` honeypot handles spam.
 3. Put the endpoint in `tools/site-config.json`, for example `"formspree_endpoint": "https://formspree.io/f/abcdwxyz"`.
    To route Canada requests to a separate form, also set `formspree_endpoint_canada`.
-4. Rebuild with `python3 tools/build_pages.py`, then commit and push.
+4. Set `"formspree_uploads": true` once the Formspree plan allows uploads (with `false`, the upload box is left out of the page
+   and customers share drawings by link or email).
+5. Rebuild with `python3 tools/build_pages.py --live`, then commit and push.
 
 With no endpoint set, the form falls back to opening the visitor's email app with the request pre-filled.
 
@@ -47,4 +49,5 @@ With no endpoint set, the form falls back to opening the visitor's email app wit
 1. `python3 tools/build_pages.py --live`, add a `CNAME` file containing `precimechcnc.com`, commit and push.
 2. In GoDaddy DNS, point the apex `A` records to GitHub Pages
    (185.199.108.153, 185.199.109.153, 185.199.110.153, 185.199.111.153) and set `www` as a `CNAME` to `<user>.github.io`.
+   Leave the email records (MX, the SPF `TXT` and `_dmarc`) untouched; they belong to the GoDaddy mailbox.
 3. In the repository's Settings → Pages, set the custom domain and enable "Enforce HTTPS" once the certificate is issued.

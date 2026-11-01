@@ -160,18 +160,20 @@
   if (form) {
     const OFFICES = {
       india: { label: 'India office', email: 'precimechraj@yahoo.co.in' },
-      canada: { label: 'Canada office', email: 'nishanthrajkumar1@gmail.com' },
+      canada: { label: 'Canada office', email: 'nishanth@precimechcnc.com' },
     };
     const FORMSPREE = /^https:\/\/formspree\.io\/f\/[\w-]+$/;
     const endpoints = {
       india: (form.dataset.endpoint || '').trim(),
       canada: (form.dataset.endpointCanada || '').trim() || (form.dataset.endpoint || '').trim(),
     };
-    const uploadMode = FORMSPREE.test(endpoints.india);
-    form.classList.toggle('is-upload', uploadMode);
-    if (!uploadMode) form.removeAttribute('action');
+    const formspreeMode = FORMSPREE.test(endpoints.india);
+    const uploadsEnabled = formspreeMode && !!$('[data-upload]', form);
+    form.classList.toggle('is-formspree', formspreeMode);
+    form.classList.toggle('has-uploads', uploadsEnabled);
+    if (!formspreeMode) form.removeAttribute('action');
     const label = $('[data-rfq-label]', form);
-    if (uploadMode && label) label.textContent = 'Send request';
+    if (formspreeMode && label) label.textContent = 'Send request';
 
     // Pre-select the service from ?service=<slug>; pick the office from the ship-to country.
     const params = new URLSearchParams(location.search);
@@ -204,7 +206,7 @@
     const fileError = $('[data-file-error]', form);
     let files = [];
     const fmt = (b) => (b >= 1048576 ? `${(b / 1048576).toFixed(1)} MB` : `${Math.max(1, Math.round(b / 1024))} KB`);
-    const showFileError = (msg) => { fileError.textContent = msg; fileError.hidden = !msg; };
+    const showFileError = (msg) => { if (fileError) { fileError.textContent = msg; fileError.hidden = !msg; } };
     const syncInput = () => {
       try {
         const dt = new DataTransfer();
@@ -213,6 +215,7 @@
       } catch { /* Older browsers: the files array is still what gets submitted. */ }
     };
     const render = () => {
+      if (!list) return;
       list.replaceChildren(...files.map((f, i) => {
         const li = document.createElement('li');
         li.className = 'file';
@@ -299,7 +302,10 @@
         try { res = JSON.parse(xhr.responseText || '{}'); } catch { /* non-JSON error page */ }
         if (xhr.status >= 200 && xhr.status < 300 && res.ok !== false) {
           const n = files.length;
-          doneMsg.textContent = `Thanks, ${get('name').split(' ')[0] || 'and welcome'}. Your request${n ? ` and ${n} file${n > 1 ? 's' : ''}` : ''} reached our ${OFFICES[office].label}. We'll reply to ${get('email')} with a price and lead time.`;
+          const first = get('name').split(' ')[0] || 'and welcome';
+          const shared = n || get('drawing_link');
+          doneMsg.textContent = `Thanks, ${first}. Your request${n ? ` and ${n} file${n > 1 ? 's' : ''}` : ''} reached our team, and our ${OFFICES[office].label} will reply to ${get('email')} with a price and lead time.`
+            + (shared ? '' : ` If you have drawings, email them to ${OFFICES[office].email} and mention your name.`);
           form.reset();
           files = []; syncInput(); render(); showFileError('');
           body.hidden = true;
@@ -308,7 +314,8 @@
           done.scrollIntoView({ behavior: reduceMotion.matches ? 'auto' : 'smooth', block: 'center' });
         } else {
           const detail = Array.isArray(res.errors) ? res.errors.map((e) => e.message).join(' ') : (res.error || `error ${xhr.status}`);
-          showError(detail, office);
+          if (/file uploads not permitted/i.test(detail)) showError('file uploads are switched off right now, so please remove the attached files and send again', office);
+          else showError(detail, office);
         }
       });
       xhr.addEventListener('error', () => { setBusy(false); showError('network error', office); });
@@ -334,6 +341,7 @@
         `Quantity: ${get('quantity') || '—'}`,
         `Required by: ${get('deadline') || '—'}`,
         `Ship to: ${get('country') || '—'}`,
+        `Drawing link: ${get('drawing_link') || '—'}`,
         '',
         'Project details:',
         get('details'),
@@ -356,7 +364,7 @@
     form.addEventListener('submit', (e) => {
       e.preventDefault();
       if (!form.reportValidity()) return;
-      if (uploadMode) sendUpload(); else sendEmail();
+      if (formspreeMode) sendUpload(); else sendEmail();
     });
     $('[data-rfq-again]', form).addEventListener('click', () => {
       done.hidden = true;

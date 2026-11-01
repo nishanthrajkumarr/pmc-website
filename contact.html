@@ -5,7 +5,7 @@
 <meta name="viewport" content="width=device-width, initial-scale=1">
 <title>Request a Quote &amp; Contact | PMC Industrial Solutions</title>
 <meta name="description" content="Request a quote for CNC machining, die casting, fabrication or assembly. Contact PMC Industrial Solutions&#x27; offices in India and Canada by phone or email.">
-<meta name="robots" content="noindex, nofollow">
+<meta name="robots" content="index, follow">
 <link rel="canonical" href="https://precimechcnc.com/contact.html">
 <meta name="theme-color" content="#0c0e11">
 <meta property="og:type" content="website">
@@ -21,7 +21,7 @@
 <link rel="preconnect" href="https://fonts.googleapis.com">
 <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
 <link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=Archivo:wdth,wght@62..125,300..800&family=JetBrains+Mono:wght@400;500&display=swap">
-<link rel="stylesheet" href="assets/css/site.css?v=202611010211">
+<link rel="stylesheet" href="assets/css/site.css?v=202611010239">
 <script>document.documentElement.classList.add('js')</script>
 </head>
 <body>
@@ -93,7 +93,7 @@
 
   <section class="section section--tight" aria-label="Request a quote and contact details">
     <div class="container contact">
-      <form class="rfq" id="rfq" data-rfq action="" method="POST" enctype="multipart/form-data" data-endpoint="" data-endpoint-canada="">
+      <form class="rfq" id="rfq" data-rfq action="https://formspree.io/f/xljjplew" method="POST" enctype="multipart/form-data" data-endpoint="https://formspree.io/f/xljjplew" data-endpoint-canada="">
         <div class="rfq__body" data-rfq-body>
         <div class="rfq__head">
           <p class="eyebrow"><span>RFQ</span> Request for quote</p>
@@ -169,17 +169,11 @@
             <label for="f-details">Project details *</label>
             <textarea id="f-details" name="details" required placeholder="What is the part, what does it do, and anything we should know about tolerances, finish or inspection?"></textarea>
           </div>
-          <div class="field field--full rfq__upload" data-upload>
-            <span class="field__label" id="files-label">Drawings &amp; files <span class="opt">(optional)</span></span>
-            <div class="dropzone" data-dropzone>
-              <input id="f-files" class="dropzone__input" name="attachment" type="file" multiple aria-labelledby="files-label" aria-describedby="files-help" data-files>
-              <svg class="dropzone__icon" aria-hidden="true"><use href="#i-upload"/></svg>
-              <p class="dropzone__title"><strong>Drop drawings here</strong> or <span class="dropzone__browse">browse files</span></p>
-              <p class="dropzone__hint" id="files-help">PDF, DXF, DWG, STEP, IGES, STL, photos or a ZIP &middot; up to 10 files, 25&nbsp;MB each</p>
-            </div>
-            <ul class="file-list" data-file-list aria-live="polite"></ul>
-            <p class="field__error" data-file-error role="alert" hidden></p>
+          <div class="field field--full">
+            <label for="f-link">Link to drawings <span class="opt">(optional)</span></label>
+            <input id="f-link" name="drawing_link" type="text" inputmode="url" autocomplete="off" placeholder="Google Drive, Dropbox or WeTransfer link">
           </div>
+          
           <div class="hp" aria-hidden="true"><label for="f-gotcha">Leave this empty</label><input id="f-gotcha" type="text" name="_gotcha" tabindex="-1" autocomplete="off"></div>
         </div>
         <div class="rfq__foot">
@@ -187,6 +181,7 @@
           <div class="progress" data-rfq-progress hidden><div class="progress__bar"><span data-rfq-progress-bar></span></div><p class="progress__text" data-rfq-progress-text aria-live="polite">Uploading&hellip;</p></div>
           <p class="rfq__note rfq__note--email">This opens your email app with your request filled in. Attach your drawings (PDF, DXF, STEP or IGES) before you press send.</p>
           <p class="rfq__note rfq__note--upload">Your request and files go straight to our team through Formspree, our secure form service. Large files can take a minute on slower connections.</p>
+          <p class="rfq__note rfq__note--noupload">Your request goes straight to our team through Formspree, our secure form service. Share drawings with a link above, or email them to <a href="mailto:precimechraj@yahoo.co.in">precimechraj@yahoo.co.in</a> (India) or <a href="mailto:nishanth@precimechcnc.com">nishanth@precimechcnc.com</a> (Canada) after you send.</p>
           <p class="rfq__error" data-rfq-error role="alert" hidden></p>
         </div>
         <div class="rfq__result" data-rfq-result role="status" hidden>
@@ -217,7 +212,7 @@
           <ul class="people">
             <li><span>Nishanth Rajkumar</span><a href="tel:+14387785745">+1 438 778 5745</a></li>
           </ul>
-          <a class="office__mail" href="mailto:nishanthrajkumar1@gmail.com"><svg class="i" aria-hidden="true"><use href="#i-mail"/></svg> nishanthrajkumar1@gmail.com</a>
+          <a class="office__mail" href="mailto:nishanth@precimechcnc.com"><svg class="i" aria-hidden="true"><use href="#i-mail"/></svg> nishanth@precimechcnc.com</a>
         </div>
         <div class="aside-card">
           <h2>What to include</h2>
@@ -315,7 +310,7 @@
           <li><span class="topbar__cc">IN</span> <a href="tel:+919003088250">+91 90030 88250</a></li>
           <li><span class="topbar__cc">CA</span> <a href="tel:+14387785745">+1 438 778 5745</a></li>
           <li><a href="mailto:precimechraj@yahoo.co.in">precimechraj@yahoo.co.in</a></li>
-          <li><a href="mailto:nishanthrajkumar1@gmail.com">nishanthrajkumar1@gmail.com</a></li>
+          <li><a href="mailto:nishanth@precimechcnc.com">nishanth@precimechcnc.com</a></li>
         </ul>
       </div>
     </div>
@@ -335,6 +330,6 @@
   <button class="lightbox__btn lightbox__prev" type="button" data-lightbox-prev aria-label="Previous image"><svg class="i" aria-hidden="true"><use href="#i-chevron"/></svg></button>
   <button class="lightbox__btn lightbox__next" type="button" data-lightbox-next aria-label="Next image"><svg class="i" aria-hidden="true"><use href="#i-chevron"/></svg></button>
 </div>
-<script src="assets/js/site.js?v=202611010211" defer></script>
+<script src="assets/js/site.js?v=202611010239" defer></script>
 </body>
 </html>
