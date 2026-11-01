@@ -1,0 +1,174 @@
+---
+title: Request a Quote & Contact | PMC Industrial Solutions
+description: Request a quote for CNC machining, die casting, fabrication or assembly. Contact PMC Industrial Solutions' offices in India and Canada by phone or email.
+nav: contact
+path: contact.html
+---
+<main id="main">
+  <section class="page-hero">
+    <div class="page-hero__media" aria-hidden="true">{{img machined-links sizes="100vw" alt="" eager}}</div>
+    <div class="container">
+      <ol class="crumbs"><li><a href="index.html">Home</a></li><li>Contact</li></ol>
+      <h1 class="h1">Let&rsquo;s make <em>your part.</em></h1>
+      <p class="lede">Send us a drawing and a few details and we&rsquo;ll reply with price and lead time. Prefer to talk? Call either office directly.</p>
+    </div>
+  </section>
+
+  <section class="section section--tight" aria-label="Request a quote and contact details">
+    <div class="container contact">
+      <form class="rfq" id="rfq" data-rfq>
+        <div class="rfq__head">
+          <p class="eyebrow"><span>RFQ</span> Request for quote</p>
+          <h2 class="h2">Request a quote</h2>
+          <p>Fields marked <span aria-hidden="true">*</span><span class="sr-only">with an asterisk</span> are required. Everything else helps us quote faster.</p>
+        </div>
+        <div class="fields">
+          <div class="field">
+            <label for="f-name">Your name *</label>
+            <input id="f-name" name="name" type="text" autocomplete="name" required>
+          </div>
+          <div class="field">
+            <label for="f-company">Company <span class="opt">(optional)</span></label>
+            <input id="f-company" name="company" type="text" autocomplete="organization">
+          </div>
+          <div class="field">
+            <label for="f-email">Email *</label>
+            <input id="f-email" name="email" type="email" autocomplete="email" required>
+          </div>
+          <div class="field">
+            <label for="f-phone">Phone <span class="opt">(optional)</span></label>
+            <input id="f-phone" name="phone" type="tel" autocomplete="tel">
+          </div>
+          <div class="field">
+            <label for="f-country">Ship to</label>
+            <select id="f-country" name="country" autocomplete="country-name">
+              <option>India</option>
+              <option>Canada</option>
+              <option>United States</option>
+              <option>Mexico</option>
+              <option>United Kingdom</option>
+              <option>Europe</option>
+              <option>Middle East</option>
+              <option>Asia-Pacific</option>
+              <option>Other</option>
+            </select>
+          </div>
+          <fieldset class="field">
+            <legend>Send to</legend>
+            <div class="choice-row">
+              <label class="choice"><input type="radio" name="office" value="india" checked><span>India office</span></label>
+              <label class="choice"><input type="radio" name="office" value="canada"><span>Canada office</span></label>
+            </div>
+          </fieldset>
+          <div class="field field--full">
+            <label for="f-service">Service</label>
+            <select id="f-service" name="service">
+              <option value="High-precision CNC machining" data-slug="cnc-machining">High-precision CNC machining</option>
+              <option value="Custom metal fabrication &amp; assembly" data-slug="fabrication">Custom metal fabrication &amp; assembly</option>
+              <option value="Castings: design, manufacture &amp; assembly" data-slug="castings">Castings: design, manufacture &amp; assembly</option>
+              <option value="Refurbishment &amp; reverse engineering" data-slug="reverse-engineering">Refurbishment &amp; reverse engineering</option>
+              <option value="Power transmission &amp; motion components" data-slug="power-transmission">Power transmission &amp; motion components</option>
+              <option value="Tools, holders &amp; vises" data-slug="tooling">Tools, holders &amp; vises</option>
+              <option value="Grinding, surface finishing &amp; treatments" data-slug="finishing">Grinding, surface finishing &amp; treatments</option>
+              <option value="Quality assurance &amp; metrology" data-slug="quality">Quality assurance &amp; metrology</option>
+              <option value="Robotics &amp; automation project" data-slug="robotics">Robotics &amp; automation project</option>
+              <option value="Not sure / several services" data-slug="other">Not sure / several services</option>
+            </select>
+          </div>
+          <div class="field">
+            <label for="f-material">Material <span class="opt">(optional)</span></label>
+            <input id="f-material" name="material" type="text" placeholder="e.g. Al 6061-T6, SS304, EN8">
+          </div>
+          <div class="field">
+            <label for="f-qty">Quantity <span class="opt">(optional)</span></label>
+            <input id="f-qty" name="quantity" type="text" placeholder="e.g. 5 prototypes, then 500 / month">
+          </div>
+          <div class="field">
+            <label for="f-date">Required by <span class="opt">(optional)</span></label>
+            <input id="f-date" name="deadline" type="date">
+          </div>
+          <div class="field field--full">
+            <label for="f-details">Project details *</label>
+            <textarea id="f-details" name="details" required placeholder="What is the part, what does it do, and anything we should know about tolerances, finish or inspection?"></textarea>
+          </div>
+        </div>
+        <div class="rfq__foot">
+          <button class="btn btn--red btn--lg" type="submit">Open email with my request <svg class="i" aria-hidden="true"><use href="#i-arrow"/></svg></button>
+          <p class="rfq__note">This opens your email app with your request filled in. Attach your drawings (PDF, DXF, STEP or IGES) before you press send.</p>
+        </div>
+        <div class="rfq__result" data-rfq-result role="status" hidden>
+          <p><strong>Your email app should open now.</strong> If nothing happened, copy the request below and email it to <a data-rfq-address href="mailto:precimechraj@yahoo.co.in">precimechraj@yahoo.co.in</a>.</p>
+          <pre data-rfq-preview></pre>
+          <div class="btn-row"><button class="btn btn--ghost" type="button" data-rfq-copy>Copy request</button></div>
+        </div>
+      </form>
+
+      <aside class="aside" aria-label="Contact details">
+        <div class="aside-card">
+          <h2>India office</h2>
+          <ul class="people">
+            <li><span>Rajkumar Pushpanathan</span><a href="tel:+919841810946">+91 98418 10946</a></li>
+            <li><span>Charlus Saviour</span><a href="tel:+919003088250">+91 90030 88250</a></li>
+          </ul>
+          <a class="office__mail" href="mailto:precimechraj@yahoo.co.in"><svg class="i" aria-hidden="true"><use href="#i-mail"/></svg> precimechraj@yahoo.co.in</a>
+        </div>
+        <div class="aside-card">
+          <h2>Canada office</h2>
+          <ul class="people">
+            <li><span>Nishanth Rajkumar</span><a href="tel:+14387785745">+1 438 778 5745</a></li>
+          </ul>
+          <a class="office__mail" href="mailto:nishanthrajkumar1@gmail.com"><svg class="i" aria-hidden="true"><use href="#i-mail"/></svg> nishanthrajkumar1@gmail.com</a>
+        </div>
+        <div class="aside-card">
+          <h2>What to include</h2>
+          <ul class="ticks">
+            <li>Drawing or 3D model (PDF, DXF, STEP or IGES)</li>
+            <li>Material and grade</li>
+            <li>Quantity, plus expected annual volume</li>
+            <li>Finish or surface treatment</li>
+            <li>Target delivery date</li>
+          </ul>
+        </div>
+        <div class="aside-card">
+          <h2>Follow our work</h2>
+          <ul class="social">
+            <li><a href="https://www.linkedin.com/company/pmc-industrial-solutions/" target="_blank" rel="noopener" aria-label="PMC on LinkedIn"><svg class="i" aria-hidden="true"><use href="#i-linkedin"/></svg></a></li>
+            <li><a href="https://www.instagram.com/precimechcnc/" target="_blank" rel="noopener" aria-label="PMC on Instagram"><svg class="i" aria-hidden="true"><use href="#i-instagram"/></svg></a></li>
+          </ul>
+        </div>
+      </aside>
+    </div>
+  </section>
+
+  <section class="section section--paper" aria-labelledby="faq-title">
+    <div class="container">
+      <div class="sec-head sec-head--split">
+        <p class="eyebrow"><span>FAQ</span> Before you send</p>
+        <h2 class="h2" id="faq-title">Common <em>questions.</em></h2>
+        <p class="lede">If your question isn&rsquo;t here, call or email either office.</p>
+      </div>
+      <div class="faq">
+        <details>
+          <summary>What files can I send?</summary>
+          <p>PDF drawings, 3D models in STEP or IGES, and 2D DXF files all work. If you only have a sample part or a sketch, send photos with the key dimensions. Reverse engineering from samples is one of our services.</p>
+        </details>
+        <details>
+          <summary>Do you ship outside India?</summary>
+          <p>Yes. We ship custom parts and assemblies worldwide, and our Canada office supports customers across North America.</p>
+        </details>
+        <details>
+          <summary>What if the parts aren&rsquo;t right?</summary>
+          <p>Every order is quality-checked before it ships. If you&rsquo;re not fully satisfied with the result, we offer a complete refund or accept PO rejection.</p>
+        </details>
+        <details>
+          <summary>Can I order a sample first?</summary>
+          <p>Yes. We encourage a sample order so you can judge our quality and precision before committing to a production run.</p>
+        </details>
+        <details>
+          <summary>Which office should I contact?</summary>
+          <p>Customers in Canada and the United States can start with our Canada office. Customers everywhere else can contact our India office directly. The form above picks the office from your shipping location, and you can change it.</p>
+        </details>
+      </div>
+    </div>
+  </section>
+</main>
