@@ -155,40 +155,175 @@
     });
   }
 
-  /* ---------- RFQ form → pre-filled email ---------- */
+  /* ---------- RFQ form: Formspree upload, or a pre-filled email as fallback ---------- */
   const form = $('[data-rfq]');
   if (form) {
+    const OFFICES = {
+      india: { label: 'India office', email: 'precimechraj@yahoo.co.in' },
+      canada: { label: 'Canada office', email: 'nishanthrajkumar1@gmail.com' },
+    };
+    const FORMSPREE = /^https:\/\/formspree\.io\/f\/[\w-]+$/;
+    const endpoints = {
+      india: (form.dataset.endpoint || '').trim(),
+      canada: (form.dataset.endpointCanada || '').trim() || (form.dataset.endpoint || '').trim(),
+    };
+    const uploadMode = FORMSPREE.test(endpoints.india);
+    form.classList.toggle('is-upload', uploadMode);
+    if (!uploadMode) form.removeAttribute('action');
+    const label = $('[data-rfq-label]', form);
+    if (uploadMode && label) label.textContent = 'Send request';
+
+    // Pre-select the service from ?service=<slug>; pick the office from the ship-to country.
     const params = new URLSearchParams(location.search);
     const service = params.get('service');
     if (service) {
       const opt = $$('option', form.service).find((o) => o.value === service || o.dataset.slug === service);
       if (opt) form.service.value = opt.value;
     }
-    const country = form.country;
-    if (country) {
-      country.addEventListener('change', () => {
-        const ca = ['Canada', 'United States', 'Mexico'].includes(country.value);
-        const target = form.querySelector(`input[name="office"][value="${ca ? 'canada' : 'india'}"]`);
-        if (target) target.checked = true;
-      });
+    form.country.addEventListener('change', () => {
+      const ca = ['Canada', 'United States', 'Mexico'].includes(form.country.value);
+      const target = form.querySelector(`input[name="office"][value="${ca ? 'canada' : 'india'}"]`);
+      if (target) target.checked = true;
+    });
+
+    const values = () => {
+      const data = new FormData(form);
+      const get = (k) => (data.get(k) || '').toString().trim();
+      const office = OFFICES[get('office')] ? get('office') : 'india';
+      const subject = `RFQ: ${get('service') || 'Custom part'}${get('company') ? ` — ${get('company')}` : ''}`;
+      return { get, office, subject };
+    };
+
+    /* --- File selection (upload mode) --- */
+    const MAX_FILES = 10;
+    const MAX_FILE = 25 * 1024 * 1024;
+    const MAX_TOTAL = 95 * 1024 * 1024; // Formspree caps the whole request at 100 MB.
+    const input = $('[data-files]', form);
+    const zone = $('[data-dropzone]', form);
+    const list = $('[data-file-list]', form);
+    const fileError = $('[data-file-error]', form);
+    let files = [];
+    const fmt = (b) => (b >= 1048576 ? `${(b / 1048576).toFixed(1)} MB` : `${Math.max(1, Math.round(b / 1024))} KB`);
+    const showFileError = (msg) => { fileError.textContent = msg; fileError.hidden = !msg; };
+    const syncInput = () => {
+      try {
+        const dt = new DataTransfer();
+        files.forEach((f) => dt.items.add(f));
+        input.files = dt.files;
+      } catch { /* Older browsers: the files array is still what gets submitted. */ }
+    };
+    const render = () => {
+      list.replaceChildren(...files.map((f, i) => {
+        const li = document.createElement('li');
+        li.className = 'file';
+        li.innerHTML = '<svg class="i" aria-hidden="true"><use href="#i-file"/></svg><span class="file__name"></span><span class="file__size"></span>'
+          + '<button class="file__remove" type="button"><svg class="i" aria-hidden="true"><use href="#i-close"/></svg></button>';
+        $('.file__name', li).textContent = f.name;
+        $('.file__size', li).textContent = fmt(f.size);
+        const rm = $('.file__remove', li);
+        rm.setAttribute('aria-label', `Remove ${f.name}`);
+        rm.addEventListener('click', () => {
+          files.splice(i, 1);
+          syncInput(); render(); showFileError('');
+          (list.querySelectorAll('.file__remove')[Math.min(i, files.length - 1)] || input).focus();
+        });
+        return li;
+      }));
+    };
+    const addFiles = (incoming) => {
+      const problems = [];
+      for (const f of incoming) {
+        if (files.some((x) => x.name === f.name && x.size === f.size)) continue;
+        if (f.size > MAX_FILE) { problems.push(`${f.name} is over 25 MB`); continue; }
+        if (files.length >= MAX_FILES) { problems.push('You can attach up to 10 files'); break; }
+        if (files.reduce((t, x) => t + x.size, 0) + f.size > MAX_TOTAL) { problems.push('Files can total up to 95 MB per request'); break; }
+        files.push(f);
+      }
+      syncInput(); render();
+      showFileError(problems.length ? `${problems.join('. ')}. For larger files, email them to us or send a download link in the project details.` : '');
+    };
+    if (input) {
+      input.addEventListener('change', () => addFiles(Array.from(input.files)));
+      ['dragenter', 'dragover'].forEach((t) => zone.addEventListener(t, () => zone.classList.add('is-over')));
+      ['dragleave', 'drop'].forEach((t) => zone.addEventListener(t, () => zone.classList.remove('is-over')));
     }
+
+    /* --- Submission --- */
+    const body = $('[data-rfq-body]', form);
+    const done = $('[data-rfq-done]', form);
+    const doneMsg = $('[data-rfq-done-msg]', form);
+    const submitBtn = $('[data-rfq-submit]', form);
+    const progress = $('[data-rfq-progress]', form);
+    const bar = $('[data-rfq-progress-bar]', form);
+    const progressText = $('[data-rfq-progress-text]', form);
+    const errorBox = $('[data-rfq-error]', form);
+    const setBusy = (busy) => {
+      submitBtn.disabled = busy;
+      form.setAttribute('aria-busy', String(busy));
+      progress.hidden = !busy;
+      if (busy) { bar.style.width = '0%'; progressText.textContent = files.length ? 'Uploading… 0%' : 'Sending…'; }
+    };
+    const showError = (detail, office) => {
+      const to = OFFICES[office].email;
+      errorBox.innerHTML = '';
+      errorBox.append(`We couldn't send your request${detail ? ` (${detail})` : ''}. Please try again, or email it with your drawings to `);
+      const a = document.createElement('a');
+      a.href = `mailto:${to}`;
+      a.textContent = to;
+      errorBox.append(a, '.');
+      errorBox.hidden = false;
+    };
+
+    const sendUpload = () => {
+      const { get, office, subject } = values();
+      const data = new FormData(form);
+      data.delete('attachment');
+      files.forEach((f) => data.append('attachment', f, f.name));
+      data.set('_subject', `${subject} (${OFFICES[office].label})`);
+      data.set('office', OFFICES[office].label);
+      errorBox.hidden = true;
+      setBusy(true);
+      const xhr = new XMLHttpRequest();
+      xhr.open('POST', endpoints[office]);
+      xhr.setRequestHeader('Accept', 'application/json');
+      xhr.timeout = 180000;
+      xhr.upload.addEventListener('progress', (e) => {
+        if (!e.lengthComputable) return;
+        const pct = Math.min(100, Math.round((e.loaded / e.total) * 100));
+        bar.style.width = `${pct}%`;
+        progressText.textContent = pct < 100 ? `Uploading… ${pct}%` : 'Finishing…';
+      });
+      xhr.addEventListener('load', () => {
+        setBusy(false);
+        let res = {};
+        try { res = JSON.parse(xhr.responseText || '{}'); } catch { /* non-JSON error page */ }
+        if (xhr.status >= 200 && xhr.status < 300 && res.ok !== false) {
+          const n = files.length;
+          doneMsg.textContent = `Thanks, ${get('name').split(' ')[0] || 'and welcome'}. Your request${n ? ` and ${n} file${n > 1 ? 's' : ''}` : ''} reached our ${OFFICES[office].label}. We'll reply to ${get('email')} with a price and lead time.`;
+          form.reset();
+          files = []; syncInput(); render(); showFileError('');
+          body.hidden = true;
+          done.hidden = false;
+          done.focus();
+          done.scrollIntoView({ behavior: reduceMotion.matches ? 'auto' : 'smooth', block: 'center' });
+        } else {
+          const detail = Array.isArray(res.errors) ? res.errors.map((e) => e.message).join(' ') : (res.error || `error ${xhr.status}`);
+          showError(detail, office);
+        }
+      });
+      xhr.addEventListener('error', () => { setBusy(false); showError('network error', office); });
+      xhr.addEventListener('timeout', () => { setBusy(false); showError('the upload took too long', office); });
+      xhr.send(data);
+    };
+
     const result = $('[data-rfq-result]');
     const preview = $('[data-rfq-preview]');
     const copyBtn = $('[data-rfq-copy]');
     const addr = $('[data-rfq-address]');
-    const OFFICES = {
-      india: 'precimechraj@yahoo.co.in',
-      canada: 'nishanthrajkumar1@gmail.com',
-    };
     let lastText = '';
-    form.addEventListener('submit', (e) => {
-      e.preventDefault();
-      if (!form.reportValidity()) return;
-      const data = new FormData(form);
-      const get = (k) => (data.get(k) || '').toString().trim();
-      const office = get('office') || 'india';
-      const to = OFFICES[office];
-      const subject = `RFQ: ${get('service') || 'Custom part'}${get('company') ? ` — ${get('company')}` : ''}`;
+    const sendEmail = () => {
+      const { get, office, subject } = values();
+      const to = OFFICES[office].email;
       const lines = [
         'Hello PMC team,',
         '',
@@ -212,11 +347,21 @@
         get('phone'),
       ].filter((l, i, arr) => !(l === '' && arr[i - 1] === ''));
       lastText = `To: ${to}\nSubject: ${subject}\n\n${lines.join('\n')}`;
-      const href = `mailto:${to}?subject=${encodeURIComponent(subject)}&body=${encodeURIComponent(lines.join('\n'))}`;
       if (preview) preview.textContent = lastText;
       if (addr) { addr.textContent = to; addr.href = `mailto:${to}`; }
       if (result) { result.hidden = false; result.scrollIntoView({ behavior: reduceMotion.matches ? 'auto' : 'smooth', block: 'nearest' }); }
-      window.location.href = href;
+      window.location.href = `mailto:${to}?subject=${encodeURIComponent(subject)}&body=${encodeURIComponent(lines.join('\n'))}`;
+    };
+
+    form.addEventListener('submit', (e) => {
+      e.preventDefault();
+      if (!form.reportValidity()) return;
+      if (uploadMode) sendUpload(); else sendEmail();
+    });
+    $('[data-rfq-again]', form).addEventListener('click', () => {
+      done.hidden = true;
+      body.hidden = false;
+      form.name.focus();
     });
     if (copyBtn) {
       copyBtn.addEventListener('click', async () => {

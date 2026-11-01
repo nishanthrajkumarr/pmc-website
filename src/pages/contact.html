@@ -16,7 +16,8 @@ path: contact.html
 
   <section class="section section--tight" aria-label="Request a quote and contact details">
     <div class="container contact">
-      <form class="rfq" id="rfq" data-rfq>
+      <form class="rfq" id="rfq" data-rfq action="{{formspree}}" method="POST" enctype="multipart/form-data" data-endpoint="{{formspree}}" data-endpoint-canada="{{formspree_canada}}">
+        <div class="rfq__body" data-rfq-body>
         <div class="rfq__head">
           <p class="eyebrow"><span>RFQ</span> Request for quote</p>
           <h2 class="h2">Request a quote</h2>
@@ -91,15 +92,37 @@ path: contact.html
             <label for="f-details">Project details *</label>
             <textarea id="f-details" name="details" required placeholder="What is the part, what does it do, and anything we should know about tolerances, finish or inspection?"></textarea>
           </div>
+          <div class="field field--full rfq__upload" data-upload>
+            <span class="field__label" id="files-label">Drawings &amp; files <span class="opt">(optional)</span></span>
+            <div class="dropzone" data-dropzone>
+              <input id="f-files" class="dropzone__input" name="attachment" type="file" multiple aria-labelledby="files-label" aria-describedby="files-help" data-files>
+              <svg class="dropzone__icon" aria-hidden="true"><use href="#i-upload"/></svg>
+              <p class="dropzone__title"><strong>Drop drawings here</strong> or <span class="dropzone__browse">browse files</span></p>
+              <p class="dropzone__hint" id="files-help">PDF, DXF, DWG, STEP, IGES, STL, photos or a ZIP &middot; up to 10 files, 25&nbsp;MB each</p>
+            </div>
+            <ul class="file-list" data-file-list aria-live="polite"></ul>
+            <p class="field__error" data-file-error role="alert" hidden></p>
+          </div>
+          <div class="hp" aria-hidden="true"><label for="f-gotcha">Leave this empty</label><input id="f-gotcha" type="text" name="_gotcha" tabindex="-1" autocomplete="off"></div>
         </div>
         <div class="rfq__foot">
-          <button class="btn btn--red btn--lg" type="submit">Open email with my request <svg class="i" aria-hidden="true"><use href="#i-arrow"/></svg></button>
-          <p class="rfq__note">This opens your email app with your request filled in. Attach your drawings (PDF, DXF, STEP or IGES) before you press send.</p>
+          <button class="btn btn--red btn--lg" type="submit" data-rfq-submit><span data-rfq-label>Open email with my request</span> <svg class="i" aria-hidden="true"><use href="#i-arrow"/></svg></button>
+          <div class="progress" data-rfq-progress hidden><div class="progress__bar"><span data-rfq-progress-bar></span></div><p class="progress__text" data-rfq-progress-text aria-live="polite">Uploading&hellip;</p></div>
+          <p class="rfq__note rfq__note--email">This opens your email app with your request filled in. Attach your drawings (PDF, DXF, STEP or IGES) before you press send.</p>
+          <p class="rfq__note rfq__note--upload">Your request and files go straight to our team through Formspree, our secure form service. Large files can take a minute on slower connections.</p>
+          <p class="rfq__error" data-rfq-error role="alert" hidden></p>
         </div>
         <div class="rfq__result" data-rfq-result role="status" hidden>
           <p><strong>Your email app should open now.</strong> If nothing happened, copy the request below and email it to <a data-rfq-address href="mailto:precimechraj@yahoo.co.in">precimechraj@yahoo.co.in</a>.</p>
           <pre data-rfq-preview></pre>
           <div class="btn-row"><button class="btn btn--ghost" type="button" data-rfq-copy>Copy request</button></div>
+        </div>
+        </div>
+        <div class="rfq__done" data-rfq-done tabindex="-1" hidden>
+          <span class="rfq__done-icon" aria-hidden="true"><svg class="i"><use href="#i-check"/></svg></span>
+          <h2 class="h3">Request received</h2>
+          <p data-rfq-done-msg></p>
+          <div class="btn-row"><button class="btn btn--ghost" type="button" data-rfq-again>Send another request</button></div>
         </div>
       </form>
 
@@ -150,7 +173,7 @@ path: contact.html
       <div class="faq">
         <details>
           <summary>What files can I send?</summary>
-          <p>PDF drawings, 3D models in STEP or IGES, and 2D DXF files all work. If you only have a sample part or a sketch, send photos with the key dimensions. Reverse engineering from samples is one of our services.</p>
+          <p>PDF drawings, 3D models in STEP or IGES, 2D DXF or DWG files, STLs, photos, or a ZIP of everything. If you only have a sample part or a sketch, send photos with the key dimensions. Reverse engineering from samples is one of our services.</p>
         </details>
         <details>
           <summary>Do you ship outside India?</summary>

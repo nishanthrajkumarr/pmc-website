@@ -38,7 +38,6 @@ clip loop-fabrication  "$A/IMG_1854.MOV" 2 10 "$LAND" 28;  poster loop-fabricati
 clip loop-assembly     "$A/IMG_2173.MOV" 10 12 "$LAND" 28; poster loop-assembly 4
 clip fab-floor         "$A/IMG_1847.MOV" 0 9 "$LAND" 28;   poster fab-floor 2
 clip fabrication-tour  "$A/Fabrication.mp4" 0 26 "$LAND" 27; poster fabrication-tour 15
-clip reel-machining    "$A/IMG_2285.MOV" 0 27 "$PORT" 28;  poster reel-machining 23
 clip reel-castings     "$A/IMG_2159.MOV" 0 7 "$PORT" 28;   poster reel-castings 1
 clip reel-assemblies   "$A/IMG_2164.MOV" 0 6 "$PORT" 28;   poster reel-assemblies 1
 clip diecast-facility  "$L/5a9cae560aa48d5b82367758e1ea284e.mp4" 0 28 "$LAND" 28; poster diecast-facility 3

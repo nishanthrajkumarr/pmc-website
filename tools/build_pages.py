@@ -10,6 +10,7 @@ Template syntax inside src/pages/*.html:
   {{img slug sizes="..." class="..." alt="..." eager}}   responsive <img> from tools/media-manifest.json
   {{gallery}}                    full filterable work gallery
   {{clients}}                    client logo list
+  {{formspree}}                  quote-form endpoint from tools/site-config.json
 """
 import html, json, re, sys, time
 from pathlib import Path
@@ -21,6 +22,8 @@ SITE = 'https://precimechcnc.com/'
 VERSION = time.strftime('%Y%m%d%H%M')
 
 manifest = json.loads((ROOT / 'tools' / 'media-manifest.json').read_text())
+# Formspree endpoints (https://formspree.io/f/<id>). Empty = quote form falls back to opening an email.
+config = json.loads((ROOT / 'tools' / 'site-config.json').read_text())
 IMAGES = {}
 for item in manifest['work']:
     IMAGES[item['slug']] = dict(item, folder='work')
@@ -119,6 +122,8 @@ def build_page(path):
         'canonical': SITE + canonical_path,
         'version': VERSION,
         'year': time.strftime('%Y'),
+        'formspree': html.escape(config.get('formspree_endpoint', '').strip()),
+        'formspree_canada': html.escape(config.get('formspree_endpoint_canada', '').strip()),
     }
     for key, value in values.items():
         doc = doc.replace('{{' + key + '}}', value)
